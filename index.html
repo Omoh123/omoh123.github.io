@@ -420,6 +420,10 @@
         <a class="btn-primary" href="mailto:omogiatepraise19@gmail.com">Email me</a>
         <a class="btn-secondary" href="https://www.linkedin.com/in/praise-omogiate" target="_blank" rel="noopener">LinkedIn</a>
       </div>
+       <div class="email-copy">
+        <span id="emailText">omogiatepraise19@gmail.com</span>
+        <button class="copy-btn" id="copyBtn" type="button" aria-label="Copy email address">Copy</button>
+      </div>
     </div>
   </div>
 </section>
@@ -427,6 +431,36 @@
 <footer>
   © 2026 Praise Omogiate. Built with intent, not templates.
 </footer>
-
+<script>
+  const copyBtn = document.getElementById('copyBtn');
+  if(copyBtn){
+    copyBtn.addEventListener('click', () => {
+      const email = document.getElementById('emailText').textContent;
+      navigator.clipboard.writeText(email).then(() => {
+        copyBtn.textContent = 'Copied!';
+        copyBtn.classList.add('copied');
+        setTimeout(() => {
+          copyBtn.textContent = 'Copy';
+          copyBtn.classList.remove('copied');
+        }, 2000);
+      });
+    });
+  }
+ 
+  const revealEls = document.querySelectorAll('.reveal, .reveal-group');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('visible'));
+  }
+</script>
 </body>
 </html>
