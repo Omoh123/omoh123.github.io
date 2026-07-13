@@ -64,9 +64,6 @@
     transition:background .2s ease;
   }
   .nav-cta:hover, .nav-cta:focus-visible{background:var(--teal);}
-  .menu-btn{display:none; background:none; border:none; cursor:pointer; padding:8px;}
-  .menu-btn svg{width:22px; height:22px;}
-
   a:focus-visible, button:focus-visible{
     outline:2px solid var(--teal-deep); outline-offset:3px;
   }
@@ -203,6 +200,17 @@
   .contact .btn-primary{background:var(--peach); color:var(--teal-deep);}
   .contact .btn-primary:hover, .contact .btn-primary:focus-visible{background:#ffb495;}
   .contact .btn-secondary{border-color:var(--cream); color:var(--cream);}
+  .email-copy{
+    display:flex; align-items:center; justify-content:center; gap:12px;
+    margin-top:22px; font-family:'IBM Plex Mono',monospace; font-size:13.5px; color:#CFE6E3;
+  }
+  .copy-btn{
+    background:rgba(255,255,255,0.12); color:var(--cream); border:1px solid rgba(255,255,255,0.3);
+    padding:6px 14px; border-radius:999px; font-size:12.5px; font-family:'Inter',sans-serif;
+    font-weight:600; cursor:pointer; transition:background .2s ease;
+  }
+  .copy-btn:hover, .copy-btn:focus-visible{background:rgba(255,255,255,0.24);}
+  .copy-btn.copied{background:var(--peach); color:var(--teal-deep); border-color:var(--peach);}
   .badge{
     display:inline-flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace;
     font-size:12.5px; background:rgba(255,255,255,0.08); padding:8px 16px; border-radius:999px; margin-bottom:20px;
@@ -210,14 +218,62 @@
   .badge::before{content:''; width:7px; height:7px; border-radius:50%; background:#7CE7B8;}
   footer{text-align:center; padding:30px 0 50px; font-size:13px; color:var(--ink-soft);}
 
+  /* Scroll reveal */
+  .reveal{
+    opacity:0; transform:translateY(22px);
+    transition:opacity .7s cubic-bezier(.16,.8,.3,1), transform .7s cubic-bezier(.16,.8,.3,1);
+  }
+  .reveal.visible{opacity:1; transform:translateY(0);}
+  .reveal-group > *{
+    opacity:0; transform:translateY(22px);
+    transition:opacity .6s cubic-bezier(.16,.8,.3,1), transform .6s cubic-bezier(.16,.8,.3,1);
+  }
+  .reveal-group.visible > *{opacity:1; transform:translateY(0);}
+  .reveal-group.visible > *:nth-child(1){transition-delay:0s;}
+  .reveal-group.visible > *:nth-child(2){transition-delay:.09s;}
+  .reveal-group.visible > *:nth-child(3){transition-delay:.18s;}
+  .reveal-group.visible > *:nth-child(4){transition-delay:.27s;}
+
+  /* Hero entrance */
+  @keyframes heroUp{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .hero .eyebrow, .hero h1, .hero .sub, .hero-ctas{
+    animation:heroUp .8s cubic-bezier(.16,.8,.3,1) both;
+  }
+  .hero .eyebrow{animation-delay:.05s;}
+  .hero h1{animation-delay:.15s;}
+  .hero .sub{animation-delay:.3s;}
+  .hero-ctas{animation-delay:.45s;}
+
+  /* Hover micro-interactions */
+  .case{transition:transform .25s ease, box-shadow .25s ease;}
+  .case:hover{transform:translateY(-4px); box-shadow:0 14px 32px -18px rgba(18,63,60,0.35);}
+  .receipt{transition:transform .25s ease, box-shadow .25s ease;}
+  .receipt:hover{transform:translateY(-4px); box-shadow:0 14px 28px -16px rgba(18,63,60,0.28);}
+  .skill-col li{transition:padding-left .2s ease, color .2s ease;}
+  .skill-col li:hover{padding-left:6px; color:var(--teal-deep);}
+  .tl-item::before{transition:transform .2s ease, background .2s ease;}
+  .tl-item:hover::before{transform:scale(1.35); background:var(--teal);}
+  .cert-tag{transition:transform .2s ease;}
+  .cert-tag:hover{transform:translateY(-2px);}
+
+  @media (prefers-reduced-motion: reduce){
+    .hero .eyebrow, .hero h1, .hero .sub, .hero-ctas{animation:none; opacity:1; transform:none;}
+    .reveal, .reveal-group > *{opacity:1; transform:none; transition:none;}
+  }
+
   @media (max-width: 860px){
     .case{grid-template-columns:1fr;}
     .skills-grid{grid-template-columns:1fr;}
   }
   @media (max-width: 720px){
-    .nav-links, .nav-cta{display:none;}
-    .menu-btn{display:block;}
-    .hero{padding:56px 0 40px;}
+    .nav-inner{flex-wrap:wrap; row-gap:12px; padding:14px 0;}
+    .nav-links{gap:16px; order:3; width:100%; justify-content:center;}
+    .nav-links a{font-size:13px;}
+    .nav-cta{padding:8px 16px; font-size:13px;}
+    .hero{padding:44px 0 36px;}
   }
 </style>
 </head>
@@ -250,7 +306,7 @@
 
 <section class="proof-section" id="proof">
   <div class="wrap">
-    <div class="proof-scroll">
+    <div class="proof-scroll reveal-group">
       <div class="receipt">
         <div class="receipt-label">Dios Dlite — Dlite Extra</div>
         <span class="receipt-number">₦4M+</span>
@@ -276,7 +332,7 @@
 </section>
 
 <section class="about" id="about">
-  <div class="wrap about-layout">
+  <div class="wrap about-layout reveal">
     <div class="about-photo">
       <img src="images/praise.png" alt="Portrait of Praise Omogiate">
     </div>
@@ -298,7 +354,7 @@
       <div class="kicker">Selected Work</div>
       <h2>Three brands. Three different problems.</h2>
     </div>
-    <div class="work-grid">
+    <div class="work-grid reveal-group">
 
       <div class="case">
         <div class="case-left">
@@ -346,7 +402,7 @@
       <div class="kicker">Skills &amp; Tools</div>
       <h2>What I actually do all day.</h2>
     </div>
-    <div class="skills-grid">
+    <div class="skills-grid reveal-group">
       <div class="skill-col">
         <h3>Strategy</h3>
         <ul>
@@ -375,7 +431,7 @@
         </ul>
       </div>
     </div>
-    <div class="certs">
+    <div class="certs reveal-group">
       <span class="cert-tag">Hubspot — Content Marketing, 2025</span>
       <span class="cert-tag">Hubspot — Email Marketing, 2025</span>
     </div>
@@ -388,7 +444,7 @@
       <div class="kicker">Experience</div>
       <h2>Where it's happened so far.</h2>
     </div>
-    <div class="timeline">
+    <div class="timeline reveal-group">
       <div class="tl-item">
         <div class="tl-role">Brand Manager · Unlysh Consulting Growth Office</div>
         <div class="tl-meta">Feb 2026 — Present · Promoted from Operations &amp; Brand Support Associate</div>
@@ -411,7 +467,7 @@
 
 <section id="contact">
   <div class="wrap">
-    <div class="contact">
+    <div class="contact reveal">
       <div class="badge">Open to remote roles</div>
       <div class="kicker">Contact</div>
       <h2>Let's build something that converts.</h2>
@@ -420,7 +476,7 @@
         <a class="btn-primary" href="mailto:omogiatepraise19@gmail.com">Email me</a>
         <a class="btn-secondary" href="https://www.linkedin.com/in/praise-omogiate" target="_blank" rel="noopener">LinkedIn</a>
       </div>
-       <div class="email-copy">
+      <div class="email-copy">
         <span id="emailText">omogiatepraise19@gmail.com</span>
         <button class="copy-btn" id="copyBtn" type="button" aria-label="Copy email address">Copy</button>
       </div>
@@ -431,6 +487,7 @@
 <footer>
   © 2026 Praise Omogiate. Built with intent, not templates.
 </footer>
+
 <script>
   const copyBtn = document.getElementById('copyBtn');
   if(copyBtn){
@@ -446,7 +503,7 @@
       });
     });
   }
- 
+
   const revealEls = document.querySelectorAll('.reveal, .reveal-group');
   if('IntersectionObserver' in window){
     const io = new IntersectionObserver((entries) => {
